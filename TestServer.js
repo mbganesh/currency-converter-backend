@@ -66,6 +66,8 @@ app.get('/time' , (req ,res ) => {
     let startData = moment().subtract(1, 'months').format('YYYY-MM-DD')
 
 
+    res.json({ success:true, result:[]})
+
     // const reqDataModal = {
     //     start_date:startData,
     //     end_date:endData
