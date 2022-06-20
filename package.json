@@ -5,7 +5,7 @@
   "main": "TestServer.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon TestServer.js",
     "dev":"nodemon TestServer.js"
   },
   "keywords": [],
