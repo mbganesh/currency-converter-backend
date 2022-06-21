@@ -6,6 +6,7 @@ import { Headers } from "node-fetch";
 import moment from "moment";
 
 const app = express()
+app.use(express.json())
 app.use(cors())
 
 app.get('/' , (req ,res ) => {
@@ -13,68 +14,66 @@ app.get('/' , (req ,res ) => {
 })
 
 
-app.get('/convert' ,  (req ,res) => {
-
-    // const reqDataModal = {
-    //     amount:3,
-    //     from:'USD',
-    //     to:'INR'
-    // }
-
-    // var myHeaders = new Headers();
-    // myHeaders.append("apikey", "h9mcKknOjuJUuFP6ZYXfD5FClnCqSX1X");
+app.post('/convert' ,  (req ,res) => {
+    const reqDataModal = {
+        amount:req.body.amount,
+        from:'USD',
+        to:'INR'
+    }
+    console.log(reqDataModal);
+    var myHeaders = new Headers();
+    myHeaders.append("apikey", "h9mcKknOjuJUuFP6ZYXfD5FClnCqSX1X");
     
-    // var requestOptions = {
-    //   method: 'GET',
-    //   redirect: 'follow',
-    //   headers: myHeaders
-    // };
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders
+    };
 
-    // fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${reqDataModal.to}&from=${reqDataModal.from}&amount=${reqDataModal.amount}`, requestOptions)
-    //   .then(response => response.text())
-    //   .then(result => {
-    //       console.log(result);
-    //       const r = JSON.parse(result)
-    //     return res.json(r)
-    //   })
-    //   .catch(error => {
-    //     return res.json(error)
-    //   });
+    fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${reqDataModal.to}&from=${reqDataModal.from}&amount=${reqDataModal.amount}`, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        //   console.log(result);
+          const r = JSON.parse(result)
+        return res.json(r)
+      })
+      .catch(error => {
+        return res.json(error)
+      });
       
 })
 
-app.get('/time' , (req ,res ) => {
-
+app.get('/OneMonthData' , (req ,res ) => {
+        
     let endData = moment().format('YYYY-MM-DD')
 
     let startData = moment().subtract(1, 'months').format('YYYY-MM-DD')
 
+    const reqDataModal = {
+        start_date:startData,
+        end_date:endData
+    }
 
-    // const reqDataModal = {
-    //     start_date:startData,
-    //     end_date:endData
-    // }
 
+    var myHeaders = new Headers();
+myHeaders.append("apikey", "h9mcKknOjuJUuFP6ZYXfD5FClnCqSX1X");
 
-//     var myHeaders = new Headers();
-// myHeaders.append("apikey", "h9mcKknOjuJUuFP6ZYXfD5FClnCqSX1X");
+var requestOptions = {
+  method: 'GET',
+  redirect: 'follow',
+  headers: myHeaders
+};
 
-// var requestOptions = {
-//   method: 'GET',
-//   redirect: 'follow',
-//   headers: myHeaders
-// };
-
-// fetch(`https://api.apilayer.com/exchangerates_data/timeseries?start_date=${reqDataModal.start_date}&end_date=${reqDataModal.end_date}`, requestOptions)
-// .then(response => response.text())
-// .then(result => {
-//     console.log(result);
-//     const r = JSON.parse(result)
-//   return res.json(r)
-// })
-// .catch(error => {
-//   return res.json(error)
-// });
+fetch(`https://api.apilayer.com/exchangerates_data/timeseries?start_date=${reqDataModal.start_date}&end_date=${reqDataModal.end_date}`, requestOptions)
+.then(response => response.text())
+.then(result => {
+    console.log(result);
+    const r = JSON.parse(result)
+  return res.json(r)
+})
+.catch(error => {
+  return res.json(error)
+});
 })
 
 const PORT = process.env.PORT || 8000

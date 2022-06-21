@@ -2,11 +2,10 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "TestServer.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev":"nodemon TestServer.js"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
